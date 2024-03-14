@@ -30,15 +30,6 @@ func createSiteLoaders() []*loaders.WebLoader {
 		// this is a specialied loader
 		loaders.NewYCHackerNewsSiteLoader(),
 	)
-	// TODO: load these ones in future
-	// https://www.ghacks.net/feed/
-	// techrunch
-	// arstechnica
-	// gizmodo
-	// https://scitechdaily.com/feed/
-	// techradar https://www.techradar.com/how-to/techradar-rss
-	// TODO: check why geek wire doesnt work
-	// https://www.geekwire.com/news-sitemap.xml
 }
 
 func collectHandler(ctx *gin.Context) {
