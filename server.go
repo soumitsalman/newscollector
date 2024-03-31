@@ -24,7 +24,7 @@ func readSitemapsCSV() [][]string {
 
 func createSiteLoaders() []*loaders.WebLoader {
 	site_loaders := datautils.Transform(readSitemapsCSV(), func(item *[]string) *loaders.WebLoader {
-		return loaders.NewDefaultNewsSitemapLoader(1, (*item)[0])
+		return loaders.NewDefaultNewsSitemapLoader(2, (*item)[0])
 	})
 	return append(site_loaders,
 		// this is a specialied loader

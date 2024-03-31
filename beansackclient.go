@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"os"
 	"time"
@@ -12,6 +13,7 @@ import (
 const (
 	_JSON_BODY   = "application/json"
 	_MAX_TIMEOUT = 15 * time.Second
+	_USER_AGENT  = "Web Beans"
 )
 
 func storeNewBeans(contents []*document.Document) {
@@ -32,8 +34,15 @@ func getMediaStoreClient() *resty.Client {
 		bean_sack_client = resty.New().
 			SetTimeout(_MAX_TIMEOUT).
 			SetBaseURL(os.Getenv("BEAN_SACK_URL")).
-			SetHeader("User-Agent", os.Getenv("Web Beans")).
+			SetHeader("User-Agent", _USER_AGENT).
 			SetHeader("X-API-Key", os.Getenv("INTERNAL_AUTH_TOKEN"))
 	}
 	return bean_sack_client
+}
+
+func debug_writeJsonFile(contents []*document.Document) {
+	filename := time.Now().Format("2006-01-02-15-04-05.json")
+	file, _ := os.Create(filename)
+	defer file.Close()
+	json.NewEncoder(file).Encode(contents)
 }
