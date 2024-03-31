@@ -21,7 +21,7 @@ func storeNewBeans(contents []*document.Document) {
 	_, err := getMediaStoreClient().R().
 		SetHeader("Content-Type", _JSON_BODY).
 		SetBody(contents).
-		Post("/contents")
+		Put("/beans")
 	if err != nil {
 		log.Println("FAILED storing new contents", err)
 	}
