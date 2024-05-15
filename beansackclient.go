@@ -12,7 +12,7 @@ import (
 
 const (
 	_JSON_BODY   = "application/json"
-	_MAX_TIMEOUT = 15 * time.Second
+	_MAX_TIMEOUT = 10 * time.Minute
 	_USER_AGENT  = "Web Beans"
 )
 
