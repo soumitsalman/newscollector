@@ -1,44 +1,20 @@
 package main
 
 import (
-	"encoding/csv"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
-	datautils "github.com/soumitsalman/data-utils"
-	"github.com/soumitsalman/document-loader/loaders"
+	"github.com/joho/godotenv"
 	"golang.org/x/time/rate"
 )
 
-const _SITEMAPS_CSV = "./sitemaps.csv"
-
-func readSitemapsCSV() [][]string {
-	file, _ := os.Open(_SITEMAPS_CSV)
-	defer file.Close()
-	sitemaps, _ := csv.NewReader(file).ReadAll()
-	// ignore the header
-	return sitemaps[1:]
-}
-
-func createSiteLoaders() []*loaders.WebLoader {
-	site_loaders := datautils.Transform(readSitemapsCSV(), func(item *[]string) *loaders.WebLoader {
-		return loaders.NewDefaultNewsSitemapLoader(2, (*item)[0])
-	})
-	return append(site_loaders,
-		// this is a specialied loader
-		loaders.NewYCHackerNewsSiteLoader(),
-	)
-}
+var collector NewsSiteCollector
 
 func collectHandler(ctx *gin.Context) {
-	site_loaders := createSiteLoaders()
-	go datautils.ForEach(site_loaders, func(loader **loaders.WebLoader) {
-		beans := (**loader).LoadSite()
-		log.Println(len(beans), "new beans found")
-		storeNewBeans(beans)
-	})
+	go collector.Collect()
 	ctx.JSON(http.StatusOK, "collection started")
 }
 
@@ -62,5 +38,20 @@ func newServer(r rate.Limit, b int) *gin.Engine {
 }
 
 func main() {
-	newServer(2, 5).Run()
+	godotenv.Load()
+	switch os.Getenv("INSTANCE_MODE") {
+	case "DEBUG":
+		start_time := time.Now()
+		// initialize to save locally
+		collector = NewCollector(localFileStore)
+		collector.Collect()
+		log.Println("Collection took", time.Since(start_time))
+
+	default:
+		// initialize collector to save remotely
+		collector = NewCollector(remoteStoreBeans)
+		// initialize and run server
+		newServer(2, 5).Run()
+	}
+
 }

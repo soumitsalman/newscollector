@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/go-resty/resty/v2"
-	"github.com/soumitsalman/document-loader/document"
+	ds "github.com/soumitsalman/beansack/sdk"
 )
 
 const (
@@ -16,7 +16,7 @@ const (
 	_USER_AGENT  = "Web Beans"
 )
 
-func storeNewBeans(contents []*document.Document) {
+func remoteStoreBeans(contents []ds.Bean) {
 	// debug_writeJsonFile(contents)
 	_, err := getMediaStoreClient().R().
 		SetHeader("Content-Type", _JSON_BODY).
@@ -40,7 +40,7 @@ func getMediaStoreClient() *resty.Client {
 	return bean_sack_client
 }
 
-func debug_writeJsonFile(contents []*document.Document) {
+func localFileStore(contents []ds.Bean) {
 	filename := time.Now().Format("2006-01-02-15-04-05.json")
 	file, _ := os.Create(filename)
 	defer file.Close()
