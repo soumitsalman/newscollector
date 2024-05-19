@@ -285,8 +285,8 @@ github.com/shopspring/decimal v1.4.0/go.mod h1:gawqmDU56v4yIKSwfBSFip1HdCCXN8/+D
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.9.3 h1:dueUQJ1C2q9oE3F7wvmSGAaVtTmUizReu6fjN8uqzbQ=
 github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
-github.com/soumitsalman/beansack v0.0.0-20240519202834-2100f3106d52 h1:wPQ08UVFz4iNWUWLcK//mbYqV98F8v8SllUmRc7DkQA=
-github.com/soumitsalman/beansack v0.0.0-20240519202834-2100f3106d52/go.mod h1:xhbgbFVV0PkEjG0+OE7zfAUV45LirIvJrn4uuLZwB0E=
+github.com/soumitsalman/beansack v0.0.1 h1:9ZNh7FjVX1uNCqwkt4X9UeURmUW11uFjLPyd4sx5Cag=
+github.com/soumitsalman/beansack v0.0.1/go.mod h1:xhbgbFVV0PkEjG0+OE7zfAUV45LirIvJrn4uuLZwB0E=
 github.com/soumitsalman/data-utils v0.0.0-20240411181743-1067a6fce2ca h1:mM+4uT+If3ASmf6CDbfy4NjFei6jQf20OYmNCTBdJkQ=
 github.com/soumitsalman/data-utils v0.0.0-20240411181743-1067a6fce2ca/go.mod h1:7njupD9BjHVHo7337FRmHQ5kf064GABP3dgfqQmIZZQ=
 github.com/spf13/cast v1.3.1/go.mod h1:Qx5cxh0v+4UWYiBimWS+eyWzqEqokIECu5etghLkUJE=

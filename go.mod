@@ -2,12 +2,10 @@ module github.com/soumitsalman/newscollector
 
 go 1.22.3
 
-// toolchain go1.22.3
-
 require (
 	github.com/go-shiori/go-readability v0.0.0-20240518065624-0b7c0223026a
 	github.com/gocolly/colly/v2 v2.1.0
-	github.com/soumitsalman/beansack v0.0.0-20240519202834-2100f3106d52
+	github.com/soumitsalman/beansack v0.0.1
 )
 
 require (
