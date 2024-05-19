@@ -1,14 +1,34 @@
-package main
+package examples
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"time"
 
 	"github.com/go-resty/resty/v2"
 	ds "github.com/soumitsalman/beansack/sdk"
+	"github.com/soumitsalman/newscollector/collector"
 )
+
+const _SITEMAPS = "./examples/sitemaps.csv"
+
+func StoreLocal() {
+	start_time := time.Now()
+	// initialize to save locally
+	collector := collector.NewCollector(_SITEMAPS, localFileStore)
+	collector.Collect()
+	log.Println("Collection took", time.Since(start_time))
+}
+
+func StoreRemote() {
+	start_time := time.Now()
+	// initialize to save locally
+	collector := collector.NewCollector(_SITEMAPS, remoteStoreBeans)
+	collector.Collect()
+	log.Println("Collection took", time.Since(start_time))
+}
 
 const (
 	_JSON_BODY   = "application/json"
@@ -41,8 +61,11 @@ func getMediaStoreClient() *resty.Client {
 }
 
 func localFileStore(contents []ds.Bean) {
-	filename := time.Now().Format("2006-01-02-15-04-05.json")
-	file, _ := os.Create(filename)
-	defer file.Close()
-	json.NewEncoder(file).Encode(contents)
+	if len(contents) > 0 {
+		filename := fmt.Sprintf("outputs_%s_%s", contents[0].Source, time.Now().Format("2006-01-02-15-04-05.json"))
+		file, _ := os.Create(filename)
+		defer file.Close()
+		json.NewEncoder(file).Encode(contents)
+	}
+
 }

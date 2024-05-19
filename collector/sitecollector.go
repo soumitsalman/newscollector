@@ -1,4 +1,4 @@
-package main
+package collector
 
 import (
 	"encoding/csv"
@@ -7,20 +7,17 @@ import (
 
 	ds "github.com/soumitsalman/beansack/sdk"
 	datautils "github.com/soumitsalman/data-utils"
-	"github.com/soumitsalman/document-loader/document"
-	"github.com/soumitsalman/document-loader/loaders"
+	"github.com/soumitsalman/newscollector/loaders"
 )
-
-const _SITEMAPS_CSV = "./sitemaps.csv"
 
 type NewsSiteCollector struct {
 	site_loaders []*loaders.WebLoader
 	store_func   func([]ds.Bean)
 }
 
-func NewCollector(store_func func([]ds.Bean)) NewsSiteCollector {
+func NewCollector(sitemaps string, store_func func([]ds.Bean)) NewsSiteCollector {
 	return NewsSiteCollector{
-		site_loaders: createSiteLoaders(),
+		site_loaders: createSiteLoaders(sitemaps),
 		store_func:   store_func,
 	}
 }
@@ -34,16 +31,16 @@ func (collector NewsSiteCollector) Collect() {
 	}
 }
 
-func readSitemapsCSV() [][]string {
-	file, _ := os.Open(_SITEMAPS_CSV)
+func readSitemapsCSV(sitemaps string) [][]string {
+	file, _ := os.Open(sitemaps)
 	defer file.Close()
-	sitemaps, _ := csv.NewReader(file).ReadAll()
+	items, _ := csv.NewReader(file).ReadAll()
 	// ignore the header
-	return sitemaps[1:]
+	return items[1:]
 }
 
-func createSiteLoaders() []*loaders.WebLoader {
-	site_loaders := datautils.Transform(readSitemapsCSV(), func(item *[]string) *loaders.WebLoader {
+func createSiteLoaders(sitemaps string) []*loaders.WebLoader {
+	site_loaders := datautils.Transform(readSitemapsCSV(sitemaps), func(item *[]string) *loaders.WebLoader {
 		return loaders.NewDefaultNewsSitemapLoader(2, (*item)[0])
 	})
 	return append(site_loaders,
@@ -52,7 +49,7 @@ func createSiteLoaders() []*loaders.WebLoader {
 	)
 }
 
-func toBeans(docs []*document.Document) []ds.Bean {
+func toBeans(docs []*loaders.Document) []ds.Bean {
 	beans := make([]ds.Bean, len(docs))
 	for i, doc := range docs {
 		beans[i].Url = doc.URL
