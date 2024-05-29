@@ -5,7 +5,7 @@ go 1.22.3
 require (
 	github.com/go-shiori/go-readability v0.0.0-20240518065624-0b7c0223026a
 	github.com/gocolly/colly/v2 v2.1.0
-	github.com/soumitsalman/beansack v0.0.2
+	github.com/soumitsalman/beansack v0.0.3
 )
 
 require (
@@ -67,7 +67,7 @@ require (
 )
 
 require (
-	github.com/go-resty/resty/v2 v2.13.1
+	github.com/go-resty/resty/v2 v2.13.1 // indirect
 	github.com/joho/godotenv v1.5.1
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
